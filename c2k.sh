@@ -5,7 +5,7 @@ reset
 # -[Variables Section]-
 BUILDDIR=$(pwd)
 DOHOME="https://api.digitalocean.com/v2/droplets"
-DOTOKEN="YOUR_API_KEY"
+DOTOKEN="98a4b5341b971729d5530cef24d7d0fd080f9394d9e7f83406c784f375762c98"
 MALLEABLEDIR=$BUILDDIR/cobaltstrike/malleable_profiles
 GHMALLEABLE="https://github.com/rsmudge/Malleable-C2-Profiles.git"
 GHMODREWRITE="https://github.com/n0pe-sled/Apache2-Mod-Rewrite-Setup.git"
@@ -43,14 +43,30 @@ func_setupSSH(){
   service ssh restart
 }
 
+
 func_createDroplets(){
-  # apt-get install snap
-  # snap install doctl
+   apt-get install snap
+   snap install doctl
   curl -X POST $DOHOME \
-       -d'{"name":"dn-cs1","region":"tor1","size":"4gb","image":"ubuntu-16-04-x64","ssh_keys":["YOUR_SSH_FINGERPRINT"]}' \
+       -d'{"name":"C2kr1.blackbot.org","region":"sfo2","size":"4gb","image":"ubuntu-16-04-x64","ssh_keys":["db:b9:c9:d8:3c:5d:88:55:1d:9c:6e:95:4a:d1:e9:0f"]}' \
        -H "Content-type: application/json" \
        -H "Authorization: Bearer $DOTOKEN" \
       | python -m json.tool
+  curl -X POST $DOHOME \
+       -d'{"name":"http.blackbot.org","region":"sfo2","size":"4gb","image":"ubuntu-16-04-x64","ssh_keys":["db:b9:c9:d8:3c:5d:88:55:1d:9c:6e:95:4a:d1:e9:0f"]}' \
+       -H "Content-type: application/json" \
+       -H "Authorization: Bearer $DOTOKEN" \
+      | python -m json.tool
+  curl -X POST $DOHOME \
+       -d'{"name":"https.blackbot.org","region":"sfo2","size":"4gb","image":"ubuntu-16-04-x64","ssh_keys":["db:b9:c9:d8:3c:5d:88:55:1d:9c:6e:95:4a:d1:e9:0f"]}' \
+       -H "Content-type: application/json" \
+       -H "Authorization: Bearer $DOTOKEN" \
+      | python -m json.tool
+  curl -X POST $DOHOME \
+       -d'{"name":"httpred.blackbot.org","region":"sfo2","size":"4gb","image":"ubuntu-16-04-x64","ssh_keys":["db:b9:c9:d8:3c:5d:88:55:1d:9c:6e:95:4a:d1:e9:0f"]}' \
+       -H "Content-type: application/json" \
+       -H "Authorization: Bearer $DOTOKEN" \
+      | python -m json.toolol
 }
 
 func_getCSDependencies(){
